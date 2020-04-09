@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link rel="stylesheet" href="main.css" />
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://unpkg.com/konva@4.0.18/konva.min.js"></script>
+  </head>
+  <body>
+    <div id="bgGridHori"></div>
+    <div id="bgGridVerti"></div>
+    <button id="toggleButton" onclick="toggleMain()">Type text</button>
+    <div id="writingCont">
+      <div id="typingCont" class="paraWrapper">
+        <!-- <form action="" class="checkBoxWrapper">
+        <input
+          class="radio"
+          type="checkbox"
+          name="serif"
+          value="yes"
+          id="serif_yes"
+        />
+        <input
+          class="radio"
+          type="checkbox"
+          name="serif"
+          value="no"
+          id="serif_no"
+        />
+      </form> -->
+
+        <input
+          type="text"
+          placeholder="paragraph width"
+          id="width2Input"
+          class="Input"
+        />
+        <input
+          type="text"
+          placeholder="font size"
+          id="fontInput"
+          class="Input"
+        />
+
+        <textarea
+          type="text"
+          placeholder="Type paragraph here"
+          id="paraInput"
+          class="Input2"
+        ></textarea>
+        <button id="layer" class="paraButton" onclick="sendPara()">
+          Paragraph
+        </button>
+      </div>
+    </div>
+
+    <div id="mainCont">
+      <div class="buttonWrapper">
+        <button id="aboutButton" onclick="toggleAbout()" class="aboutButton">
+          About
+        </button>
+      </div>
+
+      <div id="aboutBox" class="aboutBox">
+        <h1 style="font-weight:light">
+          I did some writings with TCI and GPT-2
+        </h1>
+        <p>
+          Ted Nelson had vast visions for his Hyperlinks but is very
+          disappointed with its current stage. A hyperlink wasn't meant to be a
+          jump link, taking you from one place to another. It was meant to show
+          some content while still seeing its source. Ted Nelson's visions
+          inspire this tool for Hypertext, hyperlinks, and his software
+          Xanadu.  This is a writing tool that lets the user bring in their
+          references. They can feed found texts to the OpenAir text generator
+          GPT-2. The generator will give the user a new text based on the input
+          but with new meaning.
+          <br /><br />
+          The idea is that the user then will add their own words to the text.
+          The user can add the nonlinear space of their mind itself. This space
+          can even be considered a representation of the brain. Connecting other
+          references while adding on a layer of the mind. Old material is
+          leveraged by a computer and edited by a human. New content will be
+          created.
+          <br /><br />
+          new text, based on the input but with new meaning. The idea is that
+          the user then will add their own words to the text. The user can add
+          the nonlinear space of their mind itself. This space can even be
+          considered a representation of the brain. You are connecting other
+          references while adding on a layer of the mind. Old material is
+          leveraged by
+        </p>
+      </div>
+      <div class="grain"></div>
+
+      <!-- <div id="container"></div> -->
+      <div class="container">
+        <div class="circTxt" id="test"></div>
+      </div>
+      <!-- <svg id="path1" width="100%" height="200vh" viewBox="0 200 1000 10">
+      <path id="curve" fill="transparent"></path>
+      <text width="100%" style="transform:translate3d(0,0,0);">
+        <textPath
+          id="text-path"
+          style="transform:translate3d(0,0,0);"
+          alignment-baseline="top"
+          xlink:href="#curve"
+        >
+          *This is a stupid website just displaying a clock and some type on
+          *This is a stupid website just displaying a clock and some type on
+          *This is a stupid website just displaying a clock and some type on
+          paths.
+        </textPath>
+      </text>
+    </svg> -->
+
+      <div class="inputWrapper">
+        <input type="text" placeholder="link" id="userInput" class="Input" />
+        <input type="text" placeholder="color" id="colorInput" class="Input" />
+        <input type="text" placeholder="layer" id="layerInput" class="Input" />
+        <input type="text" placeholder="width" id="widthInput" class="Input" />
+        <input
+          type="text"
+          placeholder="height"
+          id="heightInput"
+          class="Input"
+        />
+        <input
+          type="text"
+          placeholder="opacity"
+          id="opacityInput"
+          class="Input"
+        />
+        <button class="linkButton" onclick="sendText()">Link</button>
+      </div>
+
+      <div class="gpt2wrapper">
+        <iframe
+          class="gpt2"
+          src="https://talktotransformer.com/"
+          frameborder="0"
+        ></iframe>
+      </div>
+      <div class="gptParaWrapper">
+        <input
+          type="text"
+          placeholder="paragraph width"
+          id="width3Input"
+          class="Input"
+        />
+        <input
+          type="text"
+          placeholder="font size"
+          id="gptFontInput"
+          class="Input"
+        />
+
+        <textarea
+          type="text"
+          placeholder="Type paragraph here"
+          id="gptParaInput"
+          class="Input2"
+        ></textarea>
+        <button
+          id="gptParaButton"
+          class="gptParaButton"
+          onclick="sendGptPara()"
+        >
+          Paragraph
+        </button>
+      </div>
+      <div id="move"></div>
+      <!-- <div id="time"></div> -->
+    </div>
+  </body>
+
+  <script src="./main.js"></script>
+  <script src="./switch.js"></script>
+  <script src="./textonpathmouse.js"></script>
+  <script src="./konva.js"></script>
+  <script src="./klock.js"></script>
+  <script src="./circletext.js"></script>
+  <script src="./webcomponent.js"></script>
+  <script src="./bggrid.js"></script>
+  <script
+    async
+    src="https://cse.google.com/cse.js?cx=009850873847034507513:iwtdovtdre3"
+  ></script>
+  <style>
+    .myFrame {
+      border: 1px solid red;
+    }
+  </style>
+</html>
