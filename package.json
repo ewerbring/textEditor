@@ -1,0 +1,45 @@
+{
+  "name": "text-editor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "bcrypt": "^4.0.1",
+    "body-parser": "^1.19.0",
+    "connect-ensure-login": "^0.1.1",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^3.2.0",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "handlebars": "^4.7.6",
+    "hbs": "^4.1.1",
+    "jquery": "^3.4.1",
+    "mongoose": "^5.9.7",
+    "morgan": "^1.10.0",
+    "node-sass": "^4.13.0",
+    "node-sass-middleware": "^0.11.0",
+    "nodemon": "^2.0.3",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "semantic-ui-css": "^2.4.1",
+    "vanilla-router": "^1.2.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ewerbring/textEditor.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ewerbring/textEditor/issues"
+  },
+  "homepage": "https://github.com/ewerbring/textEditor#readme"
+}
