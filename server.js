@@ -1,10 +1,9 @@
 require('dotenv').config(); // read .env files
 
-const cookieParser = require("cookie-parser");
+const bodyParser = require('body-parser')
 const express = require("express");
 const mongoose = require("mongoose");
 const logger = require("morgan");
-const path = require("path");
 
 const session = require('express-session');
 const passport = require('passport');
@@ -15,6 +14,7 @@ require('./passport');
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Establish mongoDB connection
 mongoose
   .connect(process.env.MONGODB_URI || "mongodb://localhost/text-editor", {
     useNewUrlParser: true
@@ -28,33 +28,20 @@ mongoose
     console.error("Error connecting to mongo", err);
   });
 
-const app_name = require("./package.json").name;
-const debug = require("debug")(
-  `${app_name}:${path.basename(__filename).split(".")[0]}`
-);
-
 // Set public folder as root
 app.use(express.static('public'));
+// Set logger levels for debugging in terminal
 app.use(logger("dev"));
-app.use(express.json({limit: '50mb'}));
-app.use(express.urlencoded({limit: '50mb', extended:false}));
-app.use(cookieParser());
-
-app.use(
-    require("node-sass-middleware")({
-      src: path.join(__dirname, "public"),
-      dest: path.join(__dirname, "public"),
-      sourceMap: true
-    })
-  );
+// Parse data from http requests 
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
   
-app.set("views", path.join(__dirname, "views"));
-app.use(express.static(path.join(__dirname, "/public/index.html")));
-
+// Create user sessions for auth
 app.use(session({
     secret: process.env.SECRET_SESSION,
     resave: true,
     saveUninitialized: true,
+    // Saves user sessions in mongoDB
     store: new MongoStore({ 
       mongooseConnection: mongoose.connection,
       ttl: 25 * 60 * 60 
@@ -64,17 +51,22 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-// Allow front-end access to node_modules folder
+// Allows front end to access node_modules
 app.use('/scripts', express.static(`${__dirname}/node_modules/`));
 
+// Gives app access to routes
+const auth = require('./routes/auth.js')
+app.use('/auth', auth)
+
+const content = require('./routes/content.js')
+app.use('/content', content)
+
+// Directs user to index.html if no route found
 app.use((req, res) => res.sendFile(`${__dirname}/public/index.html`));
 
 // Listen for HTTP requests on port 3000
 app.listen(port, () => {
   console.log('listening on %d', port);
 });
-
-const auth = require('./routes/auth.js')
-app.use('/api/auth/', auth)
 
 module.exports = app;

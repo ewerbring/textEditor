@@ -139,7 +139,6 @@ window.addEventListener('load', () => {
   });
 
   router.add('/', () => {
-    console.log("HOMEPAGE ROUTE")
     let html = homepage()
     el.html(html)
   })

@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 
 router.post('/signup', (req, res) => {
-    console.log('SIGN UP ROUTE')
+    console.log("### SIGNUP ###")
 
     const { username, password } = req.body
 
@@ -16,8 +16,9 @@ router.post('/signup', (req, res) => {
       return res.json({ message: "Password must be minimum 8 characters"})
     }
   
-    User.findOne({ username }, "username", (err, user) => {
-      if (user !== null) return res.json({ message: "This username is already taken."})
+    User.findOne({ username }, (err, user) => {
+    // Uncomment following line if username must be unique
+    // if (user !== null) return res.json({ message: "This username is already taken."})
   
       const salt = bcrypt.genSaltSync(bcryptSalt);
       const hashPass = bcrypt.hashSync(password, salt);
@@ -27,8 +28,8 @@ router.post('/signup', (req, res) => {
         password: hashPass
       });
   
-      newUser.save().then(user=>{
-        req.login(user,() => res.json(user))
+      newUser.save().then(user => {
+        req.login(user, () => res.json(user))
       })
         
       .catch(err => {
@@ -37,5 +38,45 @@ router.post('/signup', (req, res) => {
       })
     });
 })
+
+router.post("/login", (req, res) => {
+    console.log('### LOGIN ###')
+
+    const { username, password } = req.body
+  
+    if (!username.length || !password.length) {
+      return res.status(400).json({ message: "Please enter both fields"})
+    }
+    
+    User.findOne({ username })
+      .then(user => {
+        if (!user) {
+          return res.json({ message: "Please provide valid credentials."})
+        }
+  
+        if (bcrypt.compare(password, user.password)) {
+          req.session.currentUser = user
+         
+          req.login(user,() => res.json(user))
+        } else {
+          return res.json({ message: "Please provide valid credentials."})
+        }
+      })
+      .catch(err => next(err))
+})
+
+router.get('/logout', (req, res, next) => {
+  console.log('### LOGOUT ###')
+
+  if (req.session) {
+      req.session.destroy((err) => {
+        if (err) {
+          return next(err);
+        } else {
+          return res.redirect('/');
+        }
+      });
+    }
+});
 
 module.exports = router;

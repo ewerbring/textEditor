@@ -11,6 +11,17 @@
     <script src="https://unpkg.com/konva@4.0.18/konva.min.js"></script>
   </head>
   <body>
+    <div>
+        <button onclick="testUserSignup()">test user signup</button>
+        <button onclick="testUserLogin()">test user login</button>
+        <button onclick="testLogout()">test user logout</button>
+        <button onclick="testUserContentCreation()">test user content creation</button>
+        <button onclick="testLinkCreation()">test link creation</button>
+        <button onclick="testTransformerTextCreation()">test transformer text creation</button>
+        <button onclick="fetchProjectContent()">fetch project content</button>
+        <button onclick="fetchProjectNames()">fetch project names</button>
+
+    
     <div id="bgGridHori"></div>
     <div id="bgGridVerti"></div>
     <button id="toggleButton" onclick="toggleMain()">Type text</button>
@@ -52,7 +63,7 @@
           id="paraInput"
           class="Input2"
         ></textarea>
-        <button id="layer" class="paraButton" onclick="sendPara()">
+        <button id="layer" class="paraButton">
           Paragraph
         </button>
       </div>
@@ -63,7 +74,6 @@
         <button id="aboutButton" onclick="toggleAbout()" class="aboutButton">
           About
         </button>
-        <a href="/login">Login</a>
       </div>
 
       <div id="aboutBox" class="aboutBox">
@@ -172,13 +182,14 @@
           onclick="sendGptPara()"
         >
           Paragraph
-        </button>
-        <button onclick="testUserSign()">test user signup</button>
+      </button>
+
 
       </div>
       <div id="move"></div>
       <!-- <div id="time"></div> -->
       <div id="app"></div>
+    </div>
     </div>
   </body>
   <script id="home" type="text/x-handlebars-template">
@@ -200,6 +211,7 @@
   <script src="scripts/axios/dist/axios.min.js"></script>
   <script src="scripts/handlebars/dist/handlebars.min.js"></script>
   <script src="scripts/vanilla-router/dist/vanilla-router.min.js"></script>
+  <script src="./js/auth/signup.js"></script>
   <script src="./js/main.js"></script>
   <script src="./js/switch.js"></script>
   <script src="./js/textonpathmouse.js"></script>
@@ -209,23 +221,83 @@
   <script src="./js/webcomponent.js"></script>
   <script src="./js/bggrid.js"></script>
   <script src="./js/router/index.js"></script>
-  <script src="./js/auth//signup.js"></script>
   <script
     async
     src="https://cse.google.com/cse.js?cx=009850873847034507513:iwtdovtdre3"
   ></script>
   <script>
   
-  const testUserSign = () => {
-
-    console.log("TESTING SIGN UP")
-
-    const data = { username: 'username', password: 'password'}
-
-    fetch('/api/auth/signup', { method: "POST", body: JSON.stringify(data) })
+  const testUserSignup = () => {
+    axios.post('/auth/signup', { username: 'username', password: 'password' })
         .then((res) => console.log(res))
         .catch((err) => console.log(err))
-}
+  }
+
+  const testUserLogin = () => {
+    axios.post('/auth/login', { username: 'username', password: 'password' })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err))
+    }
+
+  const testLogout = () => {
+    axios.get('/auth/logout')
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err))
+  }
+
+  const testUserContentCreation = () => {
+    const userContent = {
+      paragraphWidth: '10',
+      fontSize: '10',
+      content: 'user content',
+      projectName: 'test'
+    }
+
+    axios.post('/content/createUserContent', { ...userContent })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err))
+  }
+
+  const testLinkCreation = () => {
+    const link = {
+      link: 'link text',
+      layer: '',
+      width: '',
+      height: '',
+      opacity: '',
+      projectName: 'test'
+    }
+
+    axios.post('/content/createLink', { ...link })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err))
+  }
+
+  const testTransformerTextCreation = () => {
+    const transformerText = {
+      paragraphWidth: '10',
+      fontSize: '10',
+      content: 'transformer text content',
+      projectName: 'test',
+    }
+
+    axios.post('/content/createTransformerText', { ...transformerText })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err))
+  }
+
+  const fetchProjectContent = () => {
+    axios.post('/content/fetchProjectContent', { projectName: 'test' })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err))
+  }
+
+  const fetchProjectNames = () => {
+    axios.get('/content/projects')
+      .then((res) => console.log(res))
+      .catch(err => console.log(err))
+  }
+
   </script>
   <style>
     .myFrame {
